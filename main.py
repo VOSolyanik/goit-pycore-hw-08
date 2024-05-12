@@ -1,4 +1,5 @@
 import pickle
+import curses
 from typing import List, Tuple
 
 from handlers.contacts import ContactsHandler
@@ -11,6 +12,9 @@ def parse_input(user_input: str) -> Tuple[str, List[str]]:
     return cmd, *args
 
 def load_data(filename="address_book.pkl"):
+    """
+    Loads address book from file, returns empty address book if file not found
+    """
     try:
         with open(filename, "rb") as f:
             return pickle.load(f)
@@ -19,11 +23,14 @@ def load_data(filename="address_book.pkl"):
         return AddressBook()
 
 def save_data(book, filename="address_book.pkl"):
+    """
+    Saves address book to file
+    """
     with open(filename, "wb") as f:
         pickle.dump(book, f)
 
 def main():
-    # Initialize address book and contacts handler
+    # load AddressBook and initialize contacts handler
     book = load_data()
     contacts_handler = ContactsHandler(book)
 
